@@ -4,7 +4,7 @@ const {CommentsDao} = require('../../dao/comments')
 const {CommentsValidator, PositiveArticleIdParamsValidator} = require('../../validators/comments')
 const {Auth} = require('../../../middlewares/auth');
 
-const {Resolve} = require('../../lib/helper');
+const {Resolve, CommentsTree} = require('../../lib/helper');
 const res = new Resolve();
 
 const AUTH_ADMIN = 16;
@@ -69,6 +69,8 @@ router.put('/comments/:id', new Auth(AUTH_ADMIN).m, async (ctx) => {
 router.get('/comments', async (ctx) => {
     const page = ctx.query.page;
     let commentsList = await CommentsDao.getCommentsList(page);
+    const newData = await CommentsTree(commentsList.data);
+    commentsList.data = newData;
 
     // 返回结果
     ctx.response.status = 200;
@@ -104,6 +106,9 @@ router.get('/article/:article_id/comments', async (ctx) => {
     // 页面, 排序
     const {page, desc} = ctx.query;
     const commentsList = await CommentsDao.getArticleComments(article_id, page, desc);
+
+    const newData = await CommentsTree(commentsList.data);
+    commentsList.data = newData;
 
     // 返回结果
     ctx.response.status = 200;

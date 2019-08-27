@@ -107,7 +107,8 @@ class ArticleDao {
             where: {
                 article_id: {
                     [Op.in]: articleIds
-                }
+                },
+                parent_id: 0
             },
             group: ['article_id'],
             attributes: ['article_id', [Sequelize.fn('COUNT', '*'), 'count']]

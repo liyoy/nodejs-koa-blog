@@ -49,6 +49,9 @@
               :toolbarsFlag="false">
             </mavon-editor>
           </div>
+          <ul v-if="item.sub_comments">
+            {{subComments(item.sub_comments)}}
+          </ul>
         </li>
       </ul>
       <section class="page" v-if="commentsList && commentsList.meta">
@@ -135,6 +138,10 @@
       ...mapActions({
         createComments: 'comments/createComments'
       }),
+
+      subComments(item) {
+        debugger
+      },
       /**
        * 切换页码
        * @page 页码

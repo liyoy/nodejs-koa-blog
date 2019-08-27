@@ -11,7 +11,7 @@ const {ArticleDao} = require('../../dao/article');
 const {CategoryDao} = require('../../dao/category');
 const {CommentsDao} = require('../../dao/comments');
 
-const {Resolve} = require('../../lib/helper');
+const {Resolve, CommentsTree} = require('../../lib/helper');
 const res = new Resolve();
 
 const AUTH_ADMIN = 16;
@@ -102,6 +102,8 @@ router.get('/article/:id', async (ctx) => {
     const category = await CategoryDao.getCategory(article.getDataValue('category_id'));
     // 获取关联此文章的评论列表
     const commentsList = await CommentsDao.getArticleComments(id);
+    const newData = await CommentsTree(commentsList.data);
+    commentsList.data = newData;
 
     // 更新文章浏览
     await ArticleDao.updateArticleBrowse(id, ++article.browse);
