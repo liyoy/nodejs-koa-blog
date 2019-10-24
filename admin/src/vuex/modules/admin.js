@@ -23,6 +23,10 @@ const actions = {
     const res = await admin.auth(params);
     commit('SET_USER_INFO', res.data.data);
     return res;
+  },
+  // 注册
+  REGISTER({state, commit}, params) {
+    return admin.register(params);
   }
 }
 

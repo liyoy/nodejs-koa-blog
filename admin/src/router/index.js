@@ -8,6 +8,14 @@ const routers = [
     component: (resolve) => require(['../views/login.vue'], resolve),
   },
   {
+    path: '/register',
+    meta: {
+      title: "注册",
+      noAuth: true
+    },
+    component: (resolve) => require(['../views/register.vue'], resolve),
+  },
+  {
     path: '/',
     component(resolve) {
       require(['../views/layout.vue'], resolve);
